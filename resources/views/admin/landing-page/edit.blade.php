@@ -91,8 +91,8 @@
     </div>
   </div>
   <div class="edit-topbar-right">
-    <a href="{{ route('admin.landing-page.view') }}" class="etb-btn etb-btn-view">👁 ভিউ</a>
-    <a href="{{ route('admin.landing-page.serve') }}" target="_blank" class="etb-btn etb-btn-fullscreen">↗ Full Screen</a>
+    <a href="{{ route('admin.landing-page.view') }}" class="etb-btn etb-btn-view">👁 ভিউ দেখুন</a>
+    <a href="{{ route('admin.landing-page.serve-editable') }}" target="_blank" class="etb-btn etb-btn-fullscreen">↗ Full Screen Editor</a>
   </div>
 </div>
 
@@ -106,7 +106,7 @@
 <div class="edit-iframe-wrap">
   <iframe
     id="edit-iframe"
-    src="{{ route('admin.landing-page.serve') }}"
+    src="{{ route('admin.landing-page.serve-editable') }}"
     title="Landing Page Editor"
     allowfullscreen
     allow="downloads"

@@ -5,129 +5,219 @@
 
 @push('styles')
 <style>
-  .lp-view-toolbar {
+  .page-content { padding: 0 !important; }
+
+  /* Sub topbar */
+  .view-topbar {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;
+    padding: 0.625rem 1.5rem;
+    background: rgba(15,15,26,0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    gap: 0.75rem; flex-wrap: wrap;
   }
-  .lp-view-title {
-    font-size: 1.25rem; font-weight: 700;
+  .view-topbar-left { display: flex; align-items: center; gap: 0.75rem; }
+  .view-topbar-title {
+    font-size: 0.95rem; font-weight: 700; color: #f1f5f9;
+    display: flex; align-items: center; gap: 0.5rem;
   }
-  .lp-view-title span { color: #94a3b8; font-weight: 400; font-size: 0.9rem; margin-left: 0.5rem; }
-  .lp-toolbar-right { display: flex; gap: 0.625rem; }
-  .lp-btn {
-    display: inline-flex; align-items: center; gap: 0.375rem;
-    padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600;
-    cursor: pointer; text-decoration: none; transition: all 0.2s; border: none;
-    font-family: 'Inter', sans-serif;
+  .view-topbar-badge {
+    font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.6rem;
+    background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.25);
+    color: #34d399; border-radius: 20px; letter-spacing: 0.5px;
   }
-  .lp-btn-edit {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
+  .view-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+
+  .vtb-btn {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.45rem 0.9rem; border-radius: 7px; font-size: 0.78rem; font-weight: 600;
+    cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+    transition: all 0.2s; text-decoration: none; white-space: nowrap;
   }
-  .lp-btn-edit:hover { opacity: 0.9; transform: translateY(-1px); }
-  .lp-btn-open {
+  .vtb-btn-open {
     background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
     color: #f1f5f9;
   }
-  .lp-btn-open:hover { background: rgba(255,255,255,0.12); transform: translateY(-1px); }
+  .vtb-btn-open:hover { background: rgba(255,255,255,0.14); transform: translateY(-1px); }
 
-  /* Device preview tabs */
-  .lp-device-tabs {
-    display: flex; gap: 0.5rem; margin-bottom: 1rem; align-items: center;
+  /* Device toggle bar */
+  .view-device-bar {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    background: rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
-  .lp-device-tab {
-    display: flex; align-items: center; gap: 0.375rem;
-    padding: 0.375rem 0.875rem; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+  .device-label { font-size: 0.72rem; color: #64748b; font-weight: 600; margin-right: 0.25rem; }
+  .dev-tab {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
     cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
     background: rgba(255,255,255,0.04); color: #94a3b8;
     transition: all 0.2s;
   }
-  .lp-device-tab.active { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4); color: #a5b4fc; }
-
-  /* iframe wrapper */
-  .lp-preview-shell {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 14px;
-    overflow: hidden;
-    transition: all 0.35s ease;
+  .dev-tab.active {
+    background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4); color: #a5b4fc;
   }
-  .lp-preview-bar {
-    display: flex; align-items: center; gap: 0.5rem;
-    padding: 0.625rem 1rem;
-    background: rgba(255,255,255,0.04);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .lp-preview-dots span {
-    display: inline-block; width: 10px; height: 10px; border-radius: 50%;
-    margin-right: 5px;
-  }
-  .lp-preview-dots .d1 { background: #f87171; }
-  .lp-preview-dots .d2 { background: #fbbf24; }
-  .lp-preview-dots .d3 { background: #34d399; }
-  .lp-preview-url {
-    flex: 1; background: rgba(255,255,255,0.06); border-radius: 6px;
-    padding: 0.25rem 0.75rem; font-size: 0.75rem; color: #64748b;
+  .dev-divider { width: 1px; height: 22px; background: rgba(255,255,255,0.08); margin: 0 0.25rem; }
+  .dev-url {
+    flex: 1; font-size: 0.72rem; color: #475569;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-left: 0.5rem;
   }
-  #lp-iframe {
+
+  /* iframe area */
+  .view-frame-area {
+    width: 100%;
+    height: calc(100vh - var(--topbar-h) - 38px - 42px);
+    background: #1a1a2e;
+    display: flex; align-items: flex-start; justify-content: center;
+    overflow-y: auto;
+    padding: 0;
+    transition: background 0.3s;
+  }
+  .view-frame-area.mobile-bg {
+    background: #111;
+    padding: 2rem 1rem;
+    align-items: flex-start;
+  }
+
+  /* Phone shell for mobile */
+  .phone-shell {
+    display: none;
+    flex-direction: column;
+    background: #1e1e2e;
+    border-radius: 44px;
+    border: 6px solid #2d2d3d;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.06),
+      0 30px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+    width: 390px;
+    flex-shrink: 0;
+  }
+  .phone-shell.visible { display: flex; }
+  .phone-notch {
+    height: 28px; background: #1e1e2e;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .phone-notch-pill {
+    width: 110px; height: 10px; background: #0f0f1a;
+    border-radius: 20px;
+  }
+  .phone-iframe-wrap {
+    flex: 1; overflow: hidden; border-radius: 0 0 38px 38px;
+  }
+  .phone-home-bar {
+    height: 20px; background: #1e1e2e;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .phone-home-pill {
+    width: 100px; height: 4px; background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+  }
+
+  #view-iframe {
     width: 100%; border: none; display: block;
-    height: calc(100vh - 220px); min-height: 500px;
-    transition: width 0.35s ease, margin 0.35s ease;
+    height: calc(100vh - var(--topbar-h) - 38px - 42px);
+    min-height: 500px;
   }
-  /* Mobile device frame */
-  .lp-preview-shell.mobile {
-    max-width: 430px; margin: 0 auto;
-    border-radius: 40px;
-    border: 8px solid rgba(255,255,255,0.12);
-    box-shadow: 0 0 0 2px rgba(255,255,255,0.06);
+  #view-iframe-mobile {
+    width: 390px; height: 844px; border: none; display: block;
   }
-  .lp-preview-shell.mobile #lp-iframe { height: 800px; border-radius: 32px; }
-  .lp-preview-shell.mobile .lp-preview-bar { display: none; }
+
+  /* Desktop: full width iframe */
+  #desktop-wrap { width: 100%; height: 100%; }
 </style>
 @endpush
 
 @section('topbar-actions')
-  <a href="{{ route('admin.landing-page.edit') }}" class="lp-btn lp-btn-edit">✏️ এডিট করুন</a>
+  <a href="{{ route('admin.landing-page.serve') }}" target="_blank" class="vtb-btn vtb-btn-open">↗ নতুন ট্যাবে দেখুন</a>
 @endsection
 
 @section('content')
 
-<div class="lp-view-toolbar">
-  <div>
-    <div class="lp-view-title">ল্যান্ডিং পেজ প্রিভিউ <span>Live Preview</span></div>
-  </div>
-  <div class="lp-toolbar-right">
-    <div class="lp-device-tabs">
-      <button class="lp-device-tab active" onclick="setDevice('desktop', this)">🖥 Desktop</button>
-      <button class="lp-device-tab" onclick="setDevice('mobile', this)">📱 Mobile</button>
+<!-- Sub topbar -->
+<div class="view-topbar">
+  <div class="view-topbar-left">
+    <div class="view-topbar-title">
+      👁 ল্যান্ডিং পেজ প্রিভিউ
+      <span class="view-topbar-badge">LIVE VIEW</span>
     </div>
-    <a href="{{ route('admin.landing-page.serve') }}" target="_blank" class="lp-btn lp-btn-open">↗ নতুন ট্যাবে খুলুন</a>
+  </div>
+  <div class="view-topbar-right">
+    <a href="{{ route('admin.landing-page.serve') }}" target="_blank" class="vtb-btn vtb-btn-open">↗ নতুন ট্যাবে</a>
   </div>
 </div>
 
-<div class="lp-preview-shell" id="lp-shell">
-  <div class="lp-preview-bar">
-    <div class="lp-preview-dots">
-      <span class="d1"></span><span class="d2"></span><span class="d3"></span>
-    </div>
-    <div class="lp-preview-url" id="lp-url">{{ route('admin.landing-page.serve') }}</div>
+<!-- Device toggle bar -->
+<div class="view-device-bar">
+  <span class="device-label">ডিভাইস:</span>
+  <button class="dev-tab active" id="tab-desktop" onclick="setDevice('desktop')">🖥 Desktop</button>
+  <button class="dev-tab" id="tab-mobile" onclick="setDevice('mobile')">📱 Mobile</button>
+  <div class="dev-divider"></div>
+  <span class="dev-url">{{ route('admin.landing-page.serve') }}</span>
+</div>
+
+<!-- View area -->
+<div class="view-frame-area" id="view-frame-area">
+
+  <!-- Desktop view -->
+  <div id="desktop-wrap">
+    <iframe
+      id="view-iframe"
+      src="{{ route('admin.landing-page.serve') }}"
+      title="Landing Page Preview"
+      allowfullscreen
+    ></iframe>
   </div>
-  <iframe id="lp-iframe" src="{{ route('admin.landing-page.serve') }}" title="Landing Page Preview" allowfullscreen></iframe>
+
+  <!-- Mobile phone shell (hidden by default) -->
+  <div class="phone-shell" id="phone-shell">
+    <div class="phone-notch"><div class="phone-notch-pill"></div></div>
+    <div class="phone-iframe-wrap">
+      <iframe
+        id="view-iframe-mobile"
+        title="Mobile Preview"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <div class="phone-home-bar"><div class="phone-home-pill"></div></div>
+  </div>
+
 </div>
 
 @endsection
 
 @push('scripts')
 <script>
-  function setDevice(device, btn) {
-    document.querySelectorAll('.lp-device-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    const shell = document.getElementById('lp-shell');
+  let mobileLoaded = false;
+
+  function setDevice(device) {
+    const desktopWrap = document.getElementById('desktop-wrap');
+    const phoneShell  = document.getElementById('phone-shell');
+    const frameArea   = document.getElementById('view-frame-area');
+    const tabD = document.getElementById('tab-desktop');
+    const tabM = document.getElementById('tab-mobile');
+
     if (device === 'mobile') {
-      shell.classList.add('mobile');
+      tabD.classList.remove('active');
+      tabM.classList.add('active');
+      desktopWrap.style.display = 'none';
+      phoneShell.classList.add('visible');
+      frameArea.classList.add('mobile-bg');
+
+      // Lazy load mobile iframe
+      if (!mobileLoaded) {
+        document.getElementById('view-iframe-mobile').src = '{{ route('admin.landing-page.serve') }}';
+        mobileLoaded = true;
+      }
     } else {
-      shell.classList.remove('mobile');
+      tabD.classList.add('active');
+      tabM.classList.remove('active');
+      desktopWrap.style.display = 'block';
+      phoneShell.classList.remove('visible');
+      frameArea.classList.remove('mobile-bg');
     }
   }
 </script>
