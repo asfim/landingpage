@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mystery Box</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#f2621f;
+    --orange-dark:#e2530f;
+    --card-bg:#fff;
+    --text-dark:#1c2b4a;
+    --text-muted:#5b6b85;
+    --border:#eee0d6;
+    --page-bg:#f2621f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--page-bg);
+    font-family:'Hind Siliguri', sans-serif;
+    color:var(--text-dark);
+    display:flex;
+    justify-content:center;
+    padding:24px 16px;
+  }
+  .wrap{
+    width:100%;
+    max-width:480px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .card{
+    background:var(--card-bg);
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  }
+
+  /* Header */
+  .header-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 20px;
+  }
+  .logo-badge{
+    width:36px;
+    height:36px;
+    border-radius:8px;
+    background:var(--orange);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+  }
+  .header-text .eyebrow{
+    font-size:12px;
+    color:var(--text-muted);
+    margin:0 0 2px;
+  }
+  .header-text .brand{
+    font-size:18px;
+    font-weight:700;
+    color:var(--orange);
+    margin:0;
+  }
+
+  /* Offer card */
+  .offer-card{
+    text-align:center;
+  }
+  .offer-eyebrow{
+    font-size:13px;
+    color:var(--text-muted);
+    margin:0 0 4px;
+  }
+  .offer-title{
+    font-size:22px;
+    font-weight:700;
+    color:var(--text-dark);
+    margin:0 0 16px;
+  }
+  .hero-img{
+    position:relative;
+    border-radius:10px;
+    overflow:hidden;
+    background:radial-gradient(circle at 50% 40%, #ff7a3d 0%, var(--orange) 60%, var(--orange-dark) 100%);
+    height:200px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:20px;
+  }
+  .hero-box-label{
+    background:#7a1620;
+    color:#fff;
+    font-weight:800;
+    font-size:26px;
+    line-height:1.1;
+    text-align:center;
+    padding:14px 30px;
+    border-radius:4px;
+    transform:rotate(-3deg);
+    box-shadow:4px 4px 0 rgba(0,0,0,0.15);
+    letter-spacing:1px;
+  }
+  .cod-tag{
+    position:absolute;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+    background:rgba(0,0,0,0.55);
+    color:#fff;
+    font-size:11px;
+    padding:4px 12px;
+    border-radius:20px;
+  }
+
+  .timer-box{
+    background:#fff7f0;
+    border:1px solid #ffd8bd;
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:18px;
+  }
+  .timer-label{
+    color:var(--orange);
+    font-size:13px;
+    font-weight:600;
+    margin:0 0 6px;
+  }
+  .timer-clock{
+    font-size:28px;
+    font-weight:700;
+    color:var(--text-dark);
+    display:flex;
+    justify-content:center;
+    align-items:baseline;
+    gap:8px;
+  }
+  .timer-sub{
+    display:flex;
+    justify-content:center;
+    gap:44px;
+    font-size:11px;
+    color:var(--text-muted);
+    margin-top:2px;
+  }
+
+  .pack-options{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .pack{
+    flex:1;
+    border:1.5px solid #e5e5e5;
+    border-radius:10px;
+    padding:10px 6px;
+    text-align:center;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .pack.active{
+    border-color:var(--orange);
+    background:#fff3ea;
+  }
+  .pack-name{
+    font-size:12px;
+    color:var(--text-muted);
+    margin:0 0 4px;
+  }
+  .pack-price{
+    font-size:14px;
+    font-weight:700;
+    color:var(--text-dark);
+    margin:0;
+  }
+
+  .summary-box{
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:18px;
+    text-align:left;
+  }
+  .summary-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    color:var(--text-muted);
+    padding:5px 0;
+  }
+  .summary-row.total{
+    border-top:1px dashed var(--border);
+    margin-top:6px;
+    padding-top:10px;
+    font-weight:700;
+    color:var(--text-dark);
+    font-size:16px;
+  }
+
+  .btn-primary{
+    display:block;
+    width:100%;
+    background:var(--orange);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:15px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .btn-primary:hover{ background:var(--orange-dark); }
+
+  /* Billing form */
+  .form-title{
+    font-size:18px;
+    font-weight:700;
+    text-align:center;
+    margin:0 0 4px;
+  }
+  .form-sub{
+    font-size:13px;
+    color:var(--text-muted);
+    text-align:center;
+    margin:0 0 18px;
+  }
+  label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  label .req{ color:var(--orange); }
+  input, textarea{
+    width:100%;
+    border:1px solid #e2e2e2;
+    border-radius:8px;
+    padding:11px 12px;
+    font-size:14px;
+    font-family:inherit;
+    margin-bottom:16px;
+    color:var(--text-dark);
+  }
+  input::placeholder, textarea::placeholder{ color:#b7b7b7; }
+  textarea{ resize:vertical; min-height:70px; }
+
+  .form-note{
+    font-size:12px;
+    color:var(--text-muted);
+    text-align:center;
+    margin-top:10px;
+    line-height:1.5;
+  }
+
+  /* Policy sections */
+  .section-title{
+    font-size:18px;
+    font-weight:700;
+    text-align:center;
+    margin:0 0 16px;
+  }
+  .policy-item{
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .policy-item:last-child{ margin-bottom:0; }
+  .policy-item h4{
+    margin:0 0 6px;
+    font-size:14px;
+    color:var(--orange-dark);
+  }
+  .policy-item p, .policy-item li{
+    font-size:13px;
+    color:var(--text-muted);
+    margin:0;
+    line-height:1.6;
+  }
+  .policy-item ul{
+    margin:0;
+    padding-left:18px;
+  }
+  .policy-item ul li{ margin-bottom:6px; }
+  .policy-item ul li:last-child{ margin-bottom:0; }
+
+  .footer-card{
+    text-align:center;
+    padding:20px;
+  }
+  .footer-card .fbrand{
+    font-weight:700;
+    margin:0 0 4px;
+  }
+  .footer-card .fcopy{
+    font-size:12px;
+    color:var(--text-muted);
+    margin:0;
+  }
+</style>
+<style id="editor-styles">
+#editor-dashboard {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  color: #f3f4f6;
+  font-family: system-ui, -apple-system, sans-serif;
+  z-index: 100000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 16px;
+  box-sizing: border-box;
+}
+#editor-dashboard.minimized {
+  width: 180px;
+  height: 48px;
+  padding: 12px 16px;
+  bottom: 20px;
+  right: 20px;
+  overflow: hidden;
+}
+.editor-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  user-select: none;
+}
+#editor-dashboard.minimized .editor-dashboard-header {
+  margin-bottom: 0;
+  width: 100%;
+}
+.editor-dashboard-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.editor-btn-icon {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 11px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.editor-btn-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.editor-dashboard-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: opacity 0.2s;
+}
+#editor-dashboard.minimized .editor-dashboard-body {
+  opacity: 0;
+  pointer-events: none;
+}
+.editor-control-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.editor-label-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.editor-switch-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+}
+.editor-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+.editor-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.editor-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #374151;
+  transition: .2s;
+  border-radius: 20px;
+}
+.editor-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px; width: 14px;
+  left: 3px; bottom: 3px;
+  background-color: white;
+  transition: .2s;
+  border-radius: 50%;
+}
+.editor-switch input:checked + .editor-slider {
+  background-color: var(--orange, #f2621f);
+}
+.editor-switch input:checked + .editor-slider:before {
+  transform: translateX(20px);
+}
+.editor-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.editor-color-pickers {
+  display: flex;
+  gap: 12px;
+}
+.editor-color-picker-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.editor-color-picker-wrapper input[type="color"] {
+  -webkit-appearance: none;
+  border: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+.editor-color-picker-wrapper input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.editor-color-picker-wrapper input[type="color"]::-webkit-color-swatch {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+.editor-color-name {
+  font-size: 11px;
+  color: #d1d5db;
+}
+.editor-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+.editor-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.editor-btn.primary {
+  background: var(--orange, #f2621f);
+  color: white;
+}
+.editor-btn.primary:hover {
+  background: var(--orange-dark, #e2530f);
+  transform: translateY(-1px);
+}
+.editor-btn.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f3f4f6;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.editor-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Edit Mode Visual Guides */
+body.editor-active-mode [data-editable] {
+  position: relative;
+  cursor: pointer;
+  transition: outline 0.15s ease, background-color 0.15s ease;
+}
+body.editor-active-mode [data-editable]:hover {
+  outline: 2px dashed var(--orange, #f2621f) !important;
+  outline-offset: 2px;
+  background-color: rgba(242, 98, 31, 0.05);
+}
+body.editor-active-mode [data-editable]:focus,
+body.editor-active-mode [data-editable].editing {
+  outline: 2px solid var(--orange, #f2621f) !important;
+  outline-offset: 2px;
+  background-color: rgba(242, 98, 31, 0.08);
+  cursor: text;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="card header-card">
+    <div class="logo-badge">🎁</div>
+    <div class="header-text">
+      <p class="eyebrow">অফিশিয়াল অফার</p>
+      <p class="brand">Mystery Box</p>
+    </div>
+  </div>
+
+  <!-- Offer -->
+  <div class="card offer-card">
+    <p class="offer-eyebrow">সবার আগে অর্ডার করুন</p>
+    <h2 class="offer-title">মিস্ট্রি বক্স অফার</h2>
+
+    <div class="hero-img">
+      <div class="hero-box-label">MYSTERY<br>BOX</div>
+      <span class="cod-tag">Cash on Delivery</span>
+    </div>
+
+    <div class="timer-box">
+      <p class="timer-label">সীমিত সময়ের জন্য অফার!</p>
+      <div class="timer-clock">
+        <span id="minutes">11</span><span>:</span><span id="seconds">51</span>
+      </div>
+      <div class="timer-sub">
+        <span>মিনিট</span><span>সেকেন্ড</span>
+      </div>
+    </div>
+
+    <div class="pack-options">
+      <div class="pack active" data-price="354" data-name="৬ প্যাক">
+        <p class="pack-name">৬ প্যাক</p>
+        <p class="pack-price">৳ 354.00</p>
+      </div>
+      <div class="pack" data-price="413" data-name="৭ প্যাক">
+        <p class="pack-name">৭ প্যাক</p>
+        <p class="pack-price">৳ 413.00</p>
+      </div>
+      <div class="pack" data-price="590" data-name="১০ প্যাক">
+        <p class="pack-name">১০ প্যাক</p>
+        <p class="pack-price">৳ 590.00</p>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-row"><span>নির্বাচিত প্যাকেজ</span><span id="sumPack">৬ প্যাক</span></div>
+      <div class="summary-row"><span>পণ্যের মূল্য</span><span id="sumPrice">৳ 354.00</span></div>
+      <div class="summary-row"><span>ক্যাশ অন ডেলিভারি চার্জ</span><span>৳ 99.00</span></div>
+      <div class="summary-row total"><span>মোট</span><span id="sumTotal">৳ 453.00</span></div>
+    </div>
+
+    <button class="btn-primary">🛒 অর্ডার করতে চাই</button>
+  </div>
+
+  <!-- Billing form -->
+  <div class="card">
+    <h3 class="form-title">বিলিং তথ্য</h3>
+    <p class="form-sub">অর্ডার কনফার্ম করতে নিচের ফর্মটি পূরণ করুন।</p>
+
+    <label>নাম <span class="req">*</span></label>
+    <input type="text" placeholder="আপনার নাম">
+
+    <label>ডেলিভারি ঠিকানা <span class="req">*</span></label>
+    <input type="text" placeholder="বাড়ি / রোড / এলাকা, শহর">
+
+    <label>মোবাইল নম্বর <span class="req">*</span></label>
+    <input type="text" placeholder="01XXXXXXXXX">
+
+    <label>নোট (ঐচ্ছিক)</label>
+    <textarea placeholder="বিশেষ কোনো নির্দেশনা থাকলে লিখুন"></textarea>
+
+    <button class="btn-primary">অর্ডার কনফার্ম করুন</button>
+    <p class="form-note">অর্ডার করার আগে অনুগ্রহ করে নিচের অর্ডার পলিসি ও রিটার্ন পলিসি ভালোভাবে পড়ে নিন।</p>
+  </div>
+
+  <!-- Order policy -->
+  <div class="card">
+    <h3 class="section-title">অর্ডার নীতিমালা</h3>
+
+    <div class="policy-item">
+      <h4>পেমেন্ট পদ্ধতি</h4>
+      <p>সারা বাংলাদেশে ক্যাশ অন ডেলিভারি সুবিধা রয়েছে।</p>
+    </div>
+
+    <div class="policy-item">
+      <h4>ন্যূনতম অর্ডার</h4>
+      <p>অর্ডার করতে অবশ্যই উপলব্ধ প্যাকেজগুলোর (৬ / ৭ / ১০ প্যাক) যেকোনো একটি নির্বাচন করতে হবে।</p>
+    </div>
+
+    <div class="policy-item">
+      <h4>ডেলিভারি চার্জ</h4>
+      <p>মোট অর্ডারের সাথে নির্ধারিত ডেলিভারি চার্জ যোগ করা হবে।</p>
+    </div>
+
+    <div class="policy-item">
+      <h4>ডেলিভারি প্রক্রিয়া</h4>
+      <p>অর্ডারকৃত পণ্য সিল করা মিস্ট্রি বক্স হিসেবে ডেলিভারি করা হবে। বক্স খোলার আগে পণ্য চেক করার সুযোগ নেই, কারণ বক্সের ভিতরে কী থাকবে তা সম্পূর্ণ আপনার ভাগ্যের উপর নির্ভর করে।</p>
+    </div>
+
+    <div class="policy-item">
+      <h4>অর্ডার নিশ্চিতকরণ</h4>
+      <p>ডেলিভারির আগে আমাদের টিম আপনার অর্ডার নিশ্চিত করতে কল করতে পারে।</p>
+    </div>
+  </div>
+
+  <!-- Return policy -->
+  <div class="card">
+    <h3 class="section-title">রিটার্ন নীতিমালা</h3>
+
+    <div class="policy-item">
+      <h4>রিটার্ন করার নিয়ম</h4>
+      <ul>
+        <li>পার্সেল খোলার সময় অবশ্যই আনবক্সিং ভিডিও করতে হবে।</li>
+        <li>ডেলিভারির ২৪ ঘণ্টার মধ্যে সমস্যার ক্ষেত্রে সাপোর্টে যোগাযোগ করতে হবে।</li>
+        <li>অনুমোদনের পর রিটার্ন পিকআপ হতে ২-৩ দিন সময় লাগতে পারে।</li>
+        <li>রিটার্নকৃত পার্সেল গ্রহণের পর রিফান্ড প্রসেস করা হবে।</li>
+      </ul>
+    </div>
+
+    <div class="policy-item">
+      <h4>নোট</h4>
+      <p>মিস্ট্রি বক্স সম্পূর্ণ সিল করা অবস্থায় পাঠানো হয়। বক্সের ভিতরে কী থাকবে তা সম্পূর্ণ আপনার ভাগ্যের উপর নির্ভর করে।</p>
+    </div>
+  </div>
+
+  <div class="card footer-card">
+    <p class="fbrand">Mystery Box</p>
+    <p class="fcopy">© 2026 সর্বস্বত্ব সংরক্ষিত।</p>
+  </div>
+
+</div>
+
+<script>
+  // Countdown timer starting at 11:51
+  let totalSeconds = 11 * 60 + 51;
+  const minEl = document.getElementById('minutes');
+  const secEl = document.getElementById('seconds');
+  setInterval(() => {
+    if(totalSeconds <= 0){ totalSeconds = 11*60+51; }
+    totalSeconds--;
+    const m = Math.floor(totalSeconds/60);
+    const s = totalSeconds%60;
+    minEl.textContent = String(m).padStart(2,'0');
+    secEl.textContent = String(s).padStart(2,'0');
+  }, 1000);
+
+  // Pack selection logic
+  const packs = document.querySelectorAll('.pack');
+  const sumPack = document.getElementById('sumPack');
+  const sumPrice = document.getElementById('sumPrice');
+  const sumTotal = document.getElementById('sumTotal');
+  window.codCharge = 99;
+
+  packs.forEach(pack => {
+    pack.addEventListener('click', () => {
+      packs.forEach(p => p.classList.remove('active'));
+      pack.classList.add('active');
+      const price = parseFloat(pack.dataset.price);
+      sumPack.textContent = pack.dataset.name;
+      sumPrice.textContent = '৳ ' + price.toFixed(2);
+      sumTotal.textContent = '৳ ' + (price + window.codCharge).toFixed(2);
+    });
+  });
+</script>
+
+<div id="editor-dashboard" class="editor-dashboard">
+  <div class="editor-dashboard-header">
+    <span class="editor-dashboard-title">Landing Page Editor 🛠️</span>
+    <button id="editor-toggle-minimize" class="editor-btn-icon">➖</button>
+  </div>
+  <div class="editor-dashboard-body">
+    <div class="editor-control-group">
+      <label class="editor-switch-label">
+        <span class="editor-label-text">Edit Mode</span>
+        <div class="editor-switch">
+          <input type="checkbox" id="editor-mode-toggle" checked>
+          <span class="editor-slider"></span>
+        </div>
+      </label>
+    </div>
+    
+    <div class="editor-divider"></div>
+    
+    <div class="editor-control-group">
+      <span class="editor-label-text">Colors</span>
+      <div class="editor-color-pickers">
+        <div class="editor-color-picker-wrapper">
+          <input type="color" id="editor-color-primary" value="#f2621f">
+          <span class="editor-color-name">Primary</span>
+        </div>
+        <div class="editor-color-picker-wrapper">
+          <input type="color" id="editor-color-bg" value="#f2621f">
+          <span class="editor-color-name">Bg</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="editor-divider"></div>
+    
+    <div class="editor-actions">
+      <button id="editor-btn-save-editable" class="editor-btn secondary">
+        <span>💾</span> Save Editable Page
+      </button>
+      <button id="editor-btn-export-clean" class="editor-btn primary">
+        <span>🚀</span> Export Clean Page
+      </button>
+    </div>
+  </div>
+</div>
+
+<script id="editor-scripts">
+document.addEventListener('DOMContentLoaded', () => {
+  const EDITABLE_SELECTORS = [
+    '.logo-badge',
+    '.header-text .eyebrow',
+    '.header-text .brand',
+    '.offer-eyebrow',
+    '.offer-title',
+    '.hero-box-label',
+    '.cod-tag',
+    '.timer-label',
+    '.pack-name',
+    '.pack-price',
+    '.form-title',
+    '.form-sub',
+    'label:not(.editor-switch-label)',
+    '.btn-primary',
+    '.section-title',
+    '.policy-item h4',
+    '.policy-item p',
+    '.policy-item li',
+    '.fbrand',
+    '.fcopy'
+  ];
+
+  // Color theme functions
+  function darkenColor(hex, percent) {
+    let num = parseInt(hex.replace("#",""), 16),
+        amt = Math.round(2.55 * percent),
+        r = (num >> 16) - amt,
+        g = (num >> 8 & 0x00FF) - amt,
+        b = (num & 0x0000FF) - amt;
+    return "#" + (0x1000000 + (r<0?0:r>255?255:r)*0x10000 + (g<0?0:g>255?255:g)*0x100 + (b<0?0:b>255?255:b)).toString(16).slice(1);
+  }
+
+  // Restore saved theme colors
+  const savedPrimary = localStorage.getItem('mystery_color_primary');
+  if (savedPrimary) {
+    document.documentElement.style.setProperty('--orange', savedPrimary);
+    document.documentElement.style.setProperty('--orange-dark', darkenColor(savedPrimary, 10));
+  }
+  
+  const savedBg = localStorage.getItem('mystery_color_bg');
+  if (savedBg) {
+    document.documentElement.style.setProperty('--page-bg', savedBg);
+  }
+
+  // 1. Mark editable elements and load values from localStorage
+  let editKeyCount = 0;
+  EDITABLE_SELECTORS.forEach(selector => {
+    document.querySelectorAll(selector).forEach(el => {
+      el.setAttribute('data-editable', 'true');
+      el.setAttribute('data-edit-key', 'edit_' + editKeyCount);
+      
+      const savedVal = localStorage.getItem('mystery_edit_' + editKeyCount);
+      if (savedVal !== null) {
+        el.innerHTML = savedVal;
+      }
+      editKeyCount++;
+    });
+  });
+
+  // Also mark delivery charge dynamically
+  const rows = document.querySelectorAll('.summary-row');
+  let deliveryChargeSpan = null;
+  rows.forEach(row => {
+    if (row.textContent.includes('ডেলিভারি চার্জ')) {
+      deliveryChargeSpan = row.querySelector('span:last-child');
+    }
+  });
+  if (deliveryChargeSpan) {
+    deliveryChargeSpan.setAttribute('data-editable', 'true');
+    deliveryChargeSpan.classList.add('editor-delivery-charge');
+    deliveryChargeSpan.setAttribute('data-edit-key', 'delivery_charge');
+    
+    const savedCharge = localStorage.getItem('mystery_edit_delivery_charge');
+    if (savedCharge !== null) {
+      deliveryChargeSpan.innerHTML = savedCharge;
+    }
+  }
+
+  // Initial sync for packages & delivery charge
+  document.querySelectorAll('.pack').forEach(packEl => {
+    const nameEl = packEl.querySelector('.pack-name');
+    const priceEl = packEl.querySelector('.pack-price');
+    if (nameEl) {
+      packEl.setAttribute('data-name', nameEl.textContent.trim());
+    }
+    if (priceEl) {
+      const priceVal = parseFloat(priceEl.textContent.replace(/[^\d.]/g, ''));
+      if (!isNaN(priceVal)) {
+        packEl.setAttribute('data-price', priceVal);
+      }
+    }
+  });
+
+  if (deliveryChargeSpan) {
+    const chargeVal = parseFloat(deliveryChargeSpan.textContent.replace(/[^\d.]/g, ''));
+    if (!isNaN(chargeVal)) {
+      window.codCharge = chargeVal;
+    }
+  }
+
+  // Recalculate based on currently active pack
+  const activePack = document.querySelector('.pack.active');
+  if (activePack) {
+    activePack.click();
+  }
+
+  const dashboard = document.getElementById('editor-dashboard');
+  const toggleMinimizeBtn = document.getElementById('editor-toggle-minimize');
+  const modeToggle = document.getElementById('editor-mode-toggle');
+  const colorPrimaryInput = document.getElementById('editor-color-primary');
+  const colorBgInput = document.getElementById('editor-color-bg');
+  const btnSaveEditable = document.getElementById('editor-btn-save-editable');
+  const btnExportClean = document.getElementById('editor-btn-export-clean');
+
+  // Set inputs to match currently loaded CSS variable colors
+  const computedRoot = getComputedStyle(document.documentElement);
+  const initialPrimary = computedRoot.getPropertyValue('--orange').trim() || '#f2621f';
+  const initialBg = computedRoot.getPropertyValue('--page-bg').trim() || '#f2621f';
+  colorPrimaryInput.value = initialPrimary.startsWith('#') ? initialPrimary : '#f2621f';
+  colorBgInput.value = initialBg.startsWith('#') ? initialBg : '#f2621f';
+
+  // Minimize dashboard toggler
+  toggleMinimizeBtn.addEventListener('click', () => {
+    dashboard.classList.toggle('minimized');
+    toggleMinimizeBtn.textContent = dashboard.classList.contains('minimized') ? '➕' : '➖';
+  });
+
+  // Edit Mode toggle handler
+  function updateEditMode() {
+    if (modeToggle.checked) {
+      document.body.classList.add('editor-active-mode');
+    } else {
+      document.body.classList.remove('editor-active-mode');
+      document.querySelectorAll('[data-editable]').forEach(el => {
+        el.removeAttribute('contenteditable');
+        el.classList.remove('editing');
+      });
+    }
+  }
+  modeToggle.addEventListener('change', updateEditMode);
+  updateEditMode(); // Init on start
+
+  // Handle double clicks to start editing
+  document.addEventListener('dblclick', (e) => {
+    if (!modeToggle.checked) return;
+    
+    const editableTarget = e.target.closest('[data-editable]');
+    if (!editableTarget) return;
+
+    e.preventDefault();
+    editableTarget.setAttribute('contenteditable', 'true');
+    editableTarget.classList.add('editing');
+    editableTarget.focus();
+
+    // Select text content
+    const range = document.createRange();
+    range.selectNodeContents(editableTarget);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+
+  // Handle finished editing (Blur or Enter key)
+  document.addEventListener('focusout', (e) => {
+    const editableTarget = e.target.closest('[data-editable]');
+    if (!editableTarget) return;
+    finishEditing(editableTarget);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const editableTarget = e.target.closest('[data-editable]');
+    if (!editableTarget) return;
+
+    if (e.key === 'Enter' && !editableTarget.matches('textarea, p, li')) {
+      e.preventDefault();
+      editableTarget.blur();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      document.execCommand('undo');
+      editableTarget.blur();
+    }
+  });
+
+  function finishEditing(el) {
+    el.removeAttribute('contenteditable');
+    el.classList.remove('editing');
+    
+    // Save to localStorage
+    const editKey = el.getAttribute('data-edit-key');
+    if (editKey) {
+      const storageKey = editKey.startsWith('edit_') ? 
+        'mystery_edit_' + editKey.replace('edit_', '') : 
+        'mystery_edit_' + editKey;
+      localStorage.setItem(storageKey, el.innerHTML);
+    }
+    
+    // Sync logic for package selection prices and name
+    const packEl = el.closest('.pack');
+    if (packEl) {
+      if (el.classList.contains('pack-name')) {
+        packEl.setAttribute('data-name', el.textContent.trim());
+      } else if (el.classList.contains('pack-price')) {
+        const priceVal = parseFloat(el.textContent.replace(/[^\d.]/g, ''));
+        if (!isNaN(priceVal)) {
+          packEl.setAttribute('data-price', priceVal);
+        }
+      }
+      packEl.click();
+    }
+
+    // Sync logic for delivery charge
+    if (el.classList.contains('editor-delivery-charge')) {
+      const chargeVal = parseFloat(el.textContent.replace(/[^\d.]/g, ''));
+      if (!isNaN(chargeVal)) {
+        window.codCharge = chargeVal;
+      }
+      const activePack = document.querySelector('.pack.active');
+      if (activePack) activePack.click();
+    }
+  }
+
+  // Color theme inputs listener
+  colorPrimaryInput.addEventListener('input', (e) => {
+    const color = e.target.value;
+    document.documentElement.style.setProperty('--orange', color);
+    document.documentElement.style.setProperty('--orange-dark', darkenColor(color, 10));
+    localStorage.setItem('mystery_color_primary', color);
+  });
+
+  colorBgInput.addEventListener('input', (e) => {
+    const color = e.target.value;
+    document.documentElement.style.setProperty('--page-bg', color);
+    localStorage.setItem('mystery_color_bg', color);
+  });
+
+  // Direct Save / Download HTML function
+  async function saveFileDirectly(htmlContent, defaultFilename) {
+    if ('showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: defaultFilename,
+          types: [{
+            description: 'HTML Document',
+            accept: { 'text/html': ['.html'] }
+          }]
+        });
+        const writable = await handle.createWritable();
+        await writable.write(htmlContent);
+        await writable.close();
+        return true;
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error(err);
+          alert('Could not save file directly: ' + err.message + '\nFalling back to normal download.');
+        } else {
+          return false; // User cancelled
+        }
+      }
+    }
+    
+    // Fallback to classic download
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = defaultFilename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    return true;
+  }
+
+  btnSaveEditable.addEventListener('click', async () => {
+    // Write colors inline to root tag so they persist on disk load
+    const currentPrimary = document.documentElement.style.getPropertyValue('--orange');
+    const currentBg = document.documentElement.style.getPropertyValue('--page-bg');
+    let inlineStyles = '';
+    if (currentPrimary) inlineStyles += ` --orange: ${currentPrimary}; --orange-dark: ${darkenColor(currentPrimary, 10)};`;
+    if (currentBg) inlineStyles += ` --page-bg: ${currentBg};`;
+    if (inlineStyles) {
+      document.documentElement.setAttribute('style', inlineStyles);
+    }
+
+    const wasChecked = modeToggle.checked;
+    modeToggle.checked = false;
+    updateEditMode();
+
+    const htmlString = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    await saveFileDirectly(htmlString, 'mystery-box-editable.html');
+
+    modeToggle.checked = wasChecked;
+    updateEditMode();
+  });
+
+  btnExportClean.addEventListener('click', async () => {
+    const clone = document.documentElement.cloneNode(true);
+    
+    const editorDashboard = clone.querySelector('#editor-dashboard');
+    if (editorDashboard) editorDashboard.remove();
+    
+    const editorStyles = clone.querySelector('#editor-styles');
+    if (editorStyles) editorStyles.remove();
+    
+    const editorScripts = clone.querySelector('#editor-scripts');
+    if (editorScripts) editorScripts.remove();
+
+    const body = clone.querySelector('body');
+    if (body) {
+      body.classList.remove('editor-active-mode');
+    }
+
+    clone.querySelectorAll('[data-editable]').forEach(el => {
+      el.removeAttribute('data-editable');
+      el.removeAttribute('data-edit-key');
+    });
+
+    clone.querySelectorAll('.editor-delivery-charge').forEach(el => {
+      el.classList.remove('editor-delivery-charge');
+    });
+
+    // Write computed styles inline on root so they are preserved
+    const currentPrimary = document.documentElement.style.getPropertyValue('--orange');
+    const currentBg = document.documentElement.style.getPropertyValue('--page-bg');
+    let inlineStyles = '';
+    if (currentPrimary) inlineStyles += ` --orange: ${currentPrimary}; --orange-dark: ${darkenColor(currentPrimary, 10)};`;
+    if (currentBg) inlineStyles += ` --page-bg: ${currentBg};`;
+    if (inlineStyles) {
+      clone.setAttribute('style', inlineStyles);
+    }
+
+    const htmlString = '<!DOCTYPE html>\n' + clone.outerHTML;
+    await saveFileDirectly(htmlString, 'mystery-box.html');
+  });
+});
+</script>
+
+</body>
+</html>
