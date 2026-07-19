@@ -57,6 +57,7 @@ class AdminLoginController extends Controller
      */
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $landingPage = \App\Models\LandingPage::getDefault();
+        return view('admin.dashboard', compact('landingPage'));
     }
 }

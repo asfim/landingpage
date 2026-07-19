@@ -19,16 +19,16 @@ class Order extends Model
     ];
 
     /**
-     * Status label in Bengali
+     * Status label in English
      */
     public function statusLabel(): string
     {
         return match ($this->status) {
-            'pending'   => 'অপেক্ষারত',
-            'confirmed' => 'কনফার্ম',
-            'delivered' => 'ডেলিভারি হয়েছে',
-            'cancelled' => 'বাতিল',
-            default     => $this->status,
+            'pending'   => 'Pending',
+            'confirmed' => 'Confirmed',
+            'delivered' => 'Delivered',
+            'cancelled' => 'Cancelled',
+            default     => ucfirst($this->status),
         };
     }
 

@@ -38,8 +38,27 @@ class LandingPageController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => '✅ Landing page database এ সেভ হয়েছে!',
+            'message' => '✅ Landing page saved to database successfully!',
         ]);
+    }
+
+    /**
+     * Save Meta Pixel ID and Access Token to database.
+     */
+    public function updateMeta(Request $request)
+    {
+        $request->validate([
+            'meta_pixel_id'     => ['nullable', 'string', 'max:255'],
+            'meta_access_token' => ['nullable', 'string'],
+        ]);
+
+        $lp = LandingPage::getDefault();
+        $lp->update([
+            'meta_pixel_id'     => $request->input('meta_pixel_id'),
+            'meta_access_token' => $request->input('meta_access_token'),
+        ]);
+
+        return redirect()->back()->with('success', '✅ Meta Pixel & Token saved successfully!');
     }
 
     /**
@@ -48,7 +67,43 @@ class LandingPageController extends Controller
     public function serve()
     {
         $html = $this->getHtml();
+        $html = $this->injectMetaPixel($html);
         return response($html, 200)->header('Content-Type', 'text/html; charset=UTF-8');
+    }
+
+    /**
+     * Inject Meta Pixel base code into head if configured.
+     */
+    protected function injectMetaPixel(string $html): string
+    {
+        $lp = LandingPage::getDefault();
+        $pixelId = $lp->meta_pixel_id;
+
+        if (empty($pixelId)) {
+            return $html;
+        }
+
+        $pixelCode = <<<HTML
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '{$pixelId}');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id={$pixelId}&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+HTML;
+
+        return str_replace('</head>', $pixelCode . "\n</head>", $html);
     }
 
     /**
@@ -285,7 +340,7 @@ ENDSTYLE;
 
 
     <div class="aep-row">
-      <span class="aep-label">রঙ পরিবর্তন</span>
+      <span class="aep-label">Theme Colors</span>
     </div>
     <div class="aep-colors">
       <div class="aep-color-item">
@@ -302,7 +357,7 @@ ENDSTYLE;
 
     <div style="display:flex;flex-direction:column;gap:8px;">
       <button class="aep-btn aep-btn-save" onclick="aepSaveToServer()">
-        💾 সার্ভারে সেভ করুন
+        💾 Save to Server
       </button>
       <button class="aep-btn aep-btn-secondary" onclick="aepExportClean()">
         🚀 Export Clean Page
@@ -311,7 +366,7 @@ ENDSTYLE;
   </div>
 </div>
 
-<div id="aep-toast">✅ <span id="aep-toast-msg">সফলভাবে সেভ হয়েছে!</span></div>
+<div id="aep-toast">✅ <span id="aep-toast-msg">Saved successfully!</span></div>
 
 <script id="admin-editor-script">
 (function() {
@@ -445,7 +500,7 @@ ENDSTYLE;
       var formData = new FormData();
       formData.append('image', file);
 
-      showToast('⏳ ইমেজ আপলোড হচ্ছে...');
+      showToast('⏳ Uploading image...');
 
       try {
         var response = await fetch('/admin/landing-page/upload-image', {
@@ -465,12 +520,12 @@ ENDSTYLE;
             localStorage.setItem('aep_edit_' + key, data.url);
           }
 
-          showToast('✅ ইমেজ সফলভাবে আপলোড হয়েছে!');
+          showToast('✅ Image uploaded successfully!');
         } else {
-          showToast('❌ আপলোড ব্যর্থ হয়েছে!', false);
+          showToast('❌ Upload failed!', false);
         }
       } catch (err) {
-        showToast('❌ আপলোড করতে সমস্যা হয়েছে!', false);
+        showToast('❌ Error uploading image!', false);
       }
     };
     fileInput.click();
@@ -547,7 +602,7 @@ ENDSTYLE;
   /* ── Save to Laravel server (saves CLEAN HTML — editor widget removed) ── */
   window.aepSaveToServer = async function() {
     var saveBtn = document.querySelector('.aep-btn-save');
-    if (saveBtn) { saveBtn.textContent = '⏳ সেভ হচ্ছে...'; saveBtn.disabled = true; }
+    if (saveBtn) { saveBtn.textContent = '⏳ Saving...'; saveBtn.disabled = true; }
 
     /* 1. Clone the full document so we never mutate the live DOM */
     var clone = document.documentElement.cloneNode(true);
@@ -597,11 +652,11 @@ ENDSTYLE;
         body: JSON.stringify({ html: htmlStr })
       });
       var data = await res.json();
-      showToast(data.message || '✅ সফলভাবে সেভ হয়েছে!', true);
+      showToast(data.message || '✅ Saved successfully!', true);
     } catch(err) {
-      showToast('❌ সেভ করতে সমস্যা হয়েছে!', false);
+      showToast('❌ Error saving to server!', false);
     } finally {
-      if (saveBtn) { saveBtn.textContent = '💾 সার্ভারে সেভ করুন'; saveBtn.disabled = false; }
+      if (saveBtn) { saveBtn.textContent = '💾 Save to Server'; saveBtn.disabled = false; }
     }
   };
 

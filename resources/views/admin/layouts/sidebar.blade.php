@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -204,17 +204,17 @@
   </div>
 
   <nav class="sidebar-nav">
-    <div class="sidebar-section-label">মেইন মেনু</div>
+    <div class="sidebar-section-label">MAIN MENU</div>
 
     <!-- Dashboard -->
     <div class="nav-item">
       <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-        ড্যাশবোর্ড
+        Dashboard
       </a>
     </div>
 
-    <div class="sidebar-section-label" style="margin-top:0.5rem;">ল্যান্ডিং পেজ</div>
+    <div class="sidebar-section-label" style="margin-top:0.5rem;">Landing Page</div>
 
     <!-- Landing Page (expandable) -->
     <div class="nav-item">
@@ -225,28 +225,28 @@
         aria-expanded="{{ request()->routeIs('admin.landing-page.*') ? 'true' : 'false' }}"
       >
         <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-        ল্যান্ডিং পেজ
+        Landing Page
         <svg class="nav-chevron" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
       </button>
       <div class="nav-submenu {{ request()->routeIs('admin.landing-page.*') ? 'open' : '' }}" id="lp-submenu">
         <a href="{{ route('admin.landing-page.view') }}" class="nav-link {{ request()->routeIs('admin.landing-page.view') ? 'active' : '' }}">
           <span class="sub-dot"></span>
-          👁 ভিউ (View)
+          👁 View
         </a>
         <a href="{{ route('admin.landing-page.edit') }}" class="nav-link {{ request()->routeIs('admin.landing-page.edit') ? 'active' : '' }}">
           <span class="sub-dot"></span>
-          ✏️ এডিট (Edit)
+          ✏️ Edit
         </a>
       </div>
     </div>
 
-    <div class="sidebar-section-label" style="margin-top:0.5rem;">অর্ডার ম্যানেজমেন্ট</div>
+    <div class="sidebar-section-label" style="margin-top:0.5rem;">ORDER MANAGEMENT</div>
 
     <!-- Orders -->
     <div class="nav-item">
       <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-        অর্ডারসমূহ (Orders)
+        Orders
       </a>
     </div>
 
@@ -261,7 +261,7 @@
     </div>
     <form method="POST" action="{{ route('admin.logout') }}">
       @csrf
-      <button type="submit" class="sidebar-logout-btn" title="লগআউট">
+      <button type="submit" class="sidebar-logout-btn" title="Logout">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
       </button>
     </form>
@@ -274,19 +274,19 @@
 <!-- Top Bar -->
 <div class="topbar">
   <div style="display:flex; align-items:center; gap:0.75rem;">
-    <button class="mobile-menu-btn" onclick="openSidebar()" aria-label="মেনু খুলুন">
+    <button class="mobile-menu-btn" onclick="openSidebar()" aria-label="Open Menu">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
     </button>
     <div class="topbar-breadcrumb">
       <span>Admin</span>
       <span class="sep">/</span>
-      <span class="current">@yield('breadcrumb', 'ড্যাশবোর্ড')</span>
+      <span class="current">@yield('breadcrumb', 'Dashboard')</span>
     </div>
   </div>
   <div class="topbar-actions">
     <div class="topbar-badge">
       <span class="dot"></span>
-      অনলাইন
+      Online
     </div>
     @yield('topbar-actions')
   </div>

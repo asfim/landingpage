@@ -1,7 +1,7 @@
 @extends('admin.layouts.sidebar')
 
-@section('title', 'অর্ডারসমূহ — Admin Panel')
-@section('breadcrumb', 'অর্ডারসমূহ')
+@section('title', 'Orders — Admin Panel')
+@section('breadcrumb', 'Orders')
 
 @push('styles')
 <style>
@@ -96,8 +96,8 @@
 @section('content')
 <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
   <div>
-    <h2 style="font-size: 1.5rem; font-weight: 700;">অর্ডারসমূহ</h2>
-    <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem;">ল্যান্ডিং পেজ থেকে জমা হওয়া সব কাস্টমারের অর্ডারের তালিকা।</p>
+    <h2 style="font-size: 1.5rem; font-weight: 700;">Orders</h2>
+    <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem;">List of all customer orders submitted from the landing page.</p>
   </div>
 </div>
 
@@ -106,14 +106,14 @@
     <table class="orders-table">
       <thead>
         <tr>
-          <th>অর্ডার আইডি</th>
-          <th>কাস্টমারের নাম</th>
-          <th>মোবাইল নম্বর</th>
-          <th>প্যাকেজ</th>
-          <th>মোট মূল্য</th>
-          <th>স্ট্যাটাস</th>
-          <th>অর্ডার টাইম</th>
-          <th>অ্যাকশন</th>
+          <th>Order ID</th>
+          <th>Customer Name</th>
+          <th>Phone Number</th>
+          <th>Package</th>
+          <th>Total Price</th>
+          <th>Status</th>
+          <th>Order Time</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -132,7 +132,7 @@
             <td>{{ $order->created_at->format('d M Y, h:i A') }}</td>
             <td>
               <a href="{{ route('admin.orders.show', $order->id) }}" class="btn-action">
-                👁 বিস্তারিত
+                👁 Details
               </a>
             </td>
           </tr>
@@ -151,7 +151,7 @@
   @else
     <div style="text-align: center; padding: 3rem 0; color: #94a3b8;">
       <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">📦</span>
-      <p>এখনো কোনো অর্ডার আসেনি।</p>
+      <p>No orders received yet.</p>
     </div>
   @endif
 </div>

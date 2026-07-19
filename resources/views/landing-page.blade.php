@@ -575,6 +575,12 @@
         const data = await response.json();
 
         if (response.ok && data.success) {
+          if (typeof fbq === 'function') {
+            fbq('track', 'Purchase', {
+              value: totalPrice,
+              currency: 'BDT'
+            });
+          }
           // Show premium success overlay/card
           const formContainer = document.getElementById('form-container');
           formContainer.innerHTML = `

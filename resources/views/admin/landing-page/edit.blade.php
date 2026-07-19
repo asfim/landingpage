@@ -1,7 +1,7 @@
 @extends('admin.layouts.sidebar')
 
-@section('title', 'Landing Page — এডিট')
-@section('breadcrumb', 'ল্যান্ডিং পেজ / এডিট')
+@section('title', 'Landing Page — Edit')
+@section('breadcrumb', 'Landing Page / Edit')
 
 @push('styles')
 <style>
@@ -77,7 +77,7 @@
 @endpush
 
 @section('topbar-actions')
-  <a href="{{ route('admin.landing-page.view') }}" class="etb-btn etb-btn-view">👁 ভিউ দেখুন</a>
+  <a href="{{ route('admin.landing-page.view') }}" class="etb-btn etb-btn-view">👁 View Page</a>
 @endsection
 
 @section('content')
@@ -86,12 +86,12 @@
 <div class="edit-topbar">
   <div class="edit-topbar-left">
     <div class="edit-topbar-title">
-      ✏️ ল্যান্ডিং পেজ এডিটর
+      ✏️ Landing Page Editor
       <span class="edit-topbar-badge">EDIT MODE</span>
     </div>
   </div>
   <div class="edit-topbar-right">
-    <a href="{{ route('admin.landing-page.view') }}" class="etb-btn etb-btn-view">👁 ভিউ দেখুন</a>
+    <a href="{{ route('admin.landing-page.view') }}" class="etb-btn etb-btn-view">👁 View Page</a>
     <a href="{{ route('admin.landing-page.serve-editable') }}" target="_blank" class="etb-btn etb-btn-fullscreen">↗ Full Screen Editor</a>
   </div>
 </div>
@@ -99,7 +99,7 @@
 <!-- Info bar -->
 <div class="edit-info-bar">
   <span class="info-icon">💡</span>
-  <span>নিচে পেজটি লোড হয়েছে। <strong>ডাবল ক্লিক</strong> করে যেকোনো টেক্সট এডিট করুন। রঙ পরিবর্তনের জন্য <strong>Colors</strong> পিকার ব্যবহার করুন। <strong>"Export Clean Page"</strong> চাপলে এডিট করা পেজ ডাউনলোড হবে।</span>
+  <span>The page has loaded below. <strong>Double-click</strong> on any text to edit it. Use the <strong>Colors</strong> picker to change styles. Click <strong>"Export Clean Page"</strong> to download the modified clean HTML.</span>
 </div>
 
 <!-- Full editor iframe -->

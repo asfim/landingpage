@@ -1,7 +1,7 @@
 @extends('admin.layouts.sidebar')
 
-@section('title', 'Landing Page — ভিউ')
-@section('breadcrumb', 'ল্যান্ডিং পেজ / ভিউ')
+@section('title', 'Landing Page — View')
+@section('breadcrumb', 'Landing Page / View')
 
 @push('styles')
 <style>
@@ -132,7 +132,7 @@
 @endpush
 
 @section('topbar-actions')
-  <a href="{{ route('admin.landing-page.serve') }}" target="_blank" class="vtb-btn vtb-btn-open">↗ নতুন ট্যাবে দেখুন</a>
+  <a href="{{ route('admin.landing-page.serve') }}" target="_blank" class="vtb-btn vtb-btn-open">↗ View in New Tab</a>
 @endsection
 
 @section('content')
@@ -141,18 +141,18 @@
 <div class="view-topbar">
   <div class="view-topbar-left">
     <div class="view-topbar-title">
-      👁 ল্যান্ডিং পেজ প্রিভিউ
+      👁 Landing Page Preview
       <span class="view-topbar-badge">LIVE VIEW</span>
     </div>
   </div>
   <div class="view-topbar-right">
-    <a href="{{ route('admin.landing-page.serve') }}" target="_blank" class="vtb-btn vtb-btn-open">↗ নতুন ট্যাবে</a>
+    <a href="{{ route('admin.landing-page.serve') }}" target="_blank" class="vtb-btn vtb-btn-open">↗ New Tab</a>
   </div>
 </div>
 
 <!-- Device toggle bar -->
 <div class="view-device-bar">
-  <span class="device-label">ডিভাইস:</span>
+  <span class="device-label">Device:</span>
   <button class="dev-tab active" id="tab-desktop" onclick="setDevice('desktop')">🖥 Desktop</button>
   <button class="dev-tab" id="tab-mobile" onclick="setDevice('mobile')">📱 Mobile</button>
   <div class="dev-divider"></div>

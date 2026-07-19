@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -425,7 +425,7 @@
                 </svg>
             </div>
             <h1>Admin Panel</h1>
-            <p>আপনার অ্যাকাউন্টে সাইন ইন করুন</p>
+            <p>Sign in to your account</p>
         </div>
 
         <!-- Error Alert -->
@@ -444,7 +444,7 @@
 
             <!-- Email -->
             <div class="form-group">
-                <label class="form-label" for="email">ইমেইল</label>
+                <label class="form-label" for="email">Email</label>
                 <div class="input-wrap">
                     <input
                         id="email"
@@ -467,7 +467,7 @@
 
             <!-- Password -->
             <div class="form-group">
-                <label class="form-label" for="password">পাসওয়ার্ড</label>
+                <label class="form-label" for="password">Password</label>
                 <div class="input-wrap">
                     <input
                         id="password"
@@ -494,10 +494,9 @@
                 </div>
             </div>
 
-            <!-- Remember Me -->
             <div class="remember-row">
                 <input type="checkbox" id="remember" name="remember" class="checkbox-custom">
-                <label for="remember" class="remember-label">লগইন মনে রাখো</label>
+                <label for="remember" class="remember-label">Remember me</label>
             </div>
 
             <!-- Submit -->
@@ -506,7 +505,7 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z" fill="white"/>
                     </svg>
-                    লগইন করুন
+                    Login
                 </div>
             </button>
         </form>
@@ -540,7 +539,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation: spin 0.8s linear infinite">
                 <path d="M12 4V2A10 10 0 002 12h2a8 8 0 018-8z" fill="white"/>
             </svg>
-            যাচাই হচ্ছে...
+            Verifying...
         `;
     });
 </script>

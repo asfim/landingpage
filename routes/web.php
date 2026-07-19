@@ -35,11 +35,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AdminLoginController::class, 'logout'])
         ->name('logout');
 
-    // Landing Page Management
     Route::prefix('landing-page')->name('landing-page.')->group(function () {
         Route::get('/view',           [LandingPageController::class, 'view'])          ->name('view');
         Route::get('/edit',           [LandingPageController::class, 'edit'])          ->name('edit');
         Route::post('/update',        [LandingPageController::class, 'update'])        ->name('update');
+        Route::post('/update-meta',   [LandingPageController::class, 'updateMeta'])    ->name('update-meta');
         Route::get('/serve',          [LandingPageController::class, 'serve'])         ->name('serve');
         Route::get('/serve-editable', [LandingPageController::class, 'serveEditable'])->name('serve-editable');
         Route::post('/upload-image',  [LandingPageController::class, 'uploadImage'])->name('upload-image');

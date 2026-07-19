@@ -29,7 +29,7 @@ class OrderController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'অর্ডার স্ট্যাটাস আপডেট হয়েছে।',
+            'message' => 'Order status has been updated.',
             'status'  => $order->status,
             'label'   => $order->statusLabel(),
             'color'   => $order->statusColor(),

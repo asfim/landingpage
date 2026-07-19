@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LandingPage extends Model
 {
-    protected $fillable = ['name', 'content'];
+    protected $fillable = ['name', 'content', 'meta_pixel_id', 'meta_access_token'];
 
     /**
      * Get the default landing page record, or create one from the fallback HTML file.
