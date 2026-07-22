@@ -182,7 +182,7 @@ HTML;
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 300px;
+  width: 250px;
   background: rgba(15, 23, 42, 0.92);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -196,19 +196,19 @@ HTML;
   overflow: hidden;
 }
 #admin-editor-panel.minimized {
-  height: 52px;
-  border-radius: 26px;
+  height: 44px;
+  border-radius: 22px;
 }
 .aep-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 16px;
+  padding: 10px 14px;
   cursor: pointer;
   user-select: none;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 #admin-editor-panel.minimized .aep-header { border-bottom: none; }
 .aep-title {
-  font-size: 13px; font-weight: 700; letter-spacing: 0.3px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.3px;
   display: flex; align-items: center; gap: 6px;
 }
 .aep-title-dot {
@@ -228,8 +228,8 @@ HTML;
 }
 .aep-minimize-btn:hover { background: rgba(255,255,255,0.2); }
 .aep-body {
-  padding: 14px 16px;
-  display: flex; flex-direction: column; gap: 12px;
+  padding: 10px 14px;
+  display: flex; flex-direction: column; gap: 8px;
 }
 #admin-editor-panel.minimized .aep-body {
   opacity: 0; pointer-events: none; height: 0; padding: 0; overflow: hidden;
@@ -238,7 +238,7 @@ HTML;
   display: flex; align-items: center; justify-content: space-between;
 }
 .aep-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
   text-transform: uppercase; color: #94a3b8;
 }
 .aep-switch { position:relative; display:inline-block; width:38px; height:20px; }
@@ -270,7 +270,7 @@ HTML;
 .aep-color-name { font-size:10px; color:#d1d5db; }
 .aep-divider { height:1px; background:rgba(255,255,255,0.07); }
 .aep-btn {
-  width:100%; padding:9px; border-radius:8px; font-size:12px; font-weight:700;
+  width:100%; padding:7px; border-radius:8px; font-size:11px; font-weight:700;
   cursor:pointer; border:none; font-family:inherit; transition:all 0.2s;
   display:flex; align-items:center; justify-content:center; gap:6px;
 }
@@ -360,9 +360,6 @@ ENDSTYLE;
       <button class="aep-btn aep-btn-save" onclick="aepSaveToServer()">
         💾 Save to Server
       </button>
-      <button class="aep-btn aep-btn-secondary" onclick="aepExportClean()">
-        🚀 Export Clean Page
-      </button>
     </div>
   </div>
 </div>
@@ -382,8 +379,27 @@ ENDSTYLE;
     '.timer-label','.pack-name','.pack-price','.form-title','.form-sub',
     'label:not(.aep-switch)','.btn-primary','.section-title',
     '.policy-item h4','.policy-item p','.policy-item li','.fbrand','.fcopy',
-    '.pack-img', '.hero-banner'
+    '.pack-img', '.hero-banner', '.pack-shipping'
   ];
+
+  // Force display of hidden editable elements in edit mode
+  var style = document.createElement('style');
+  style.innerHTML = `
+    body.aep-edit-active .pack-shipping {
+      display: block !important;
+      font-size: 12px;
+      color: #e53e3e;
+      margin-top: 4px;
+      border: 1px dashed #feb2b2;
+      padding: 2px;
+      border-radius: 4px;
+    }
+    body.aep-edit-active .pack-shipping::before {
+      content: "Delivery: ৳";
+      color: #718096;
+    }
+  `;
+  document.head.appendChild(style);
 
   function darkenColor(hex, pct) {
     var n = parseInt(hex.replace('#',''), 16),
@@ -426,19 +442,8 @@ ENDSTYLE;
     });
   });
 
-  /* ── Delivery charge ──────────────────────────────── */
-  document.querySelectorAll('.summary-row').forEach(function(row) {
-    if (row.textContent.indexOf('ডেলিভারি চার্জ') !== -1) {
-      var chargeSpan = row.querySelector('span:last-child');
-      if (chargeSpan) {
-        chargeSpan.setAttribute('data-editable', 'true');
-        chargeSpan.setAttribute('data-edit-key', 'delivery_charge');
-        chargeSpan.classList.add('aep-delivery-span');
-        var savedCharge = localStorage.getItem('aep_edit_delivery_charge');
-        if (savedCharge !== null) chargeSpan.innerHTML = savedCharge;
-      }
-    }
-  });
+  // Delivery charge is now dynamically computed from individual packs
+  // so the summary row is no longer directly editable.
 
   /* ── Sync pack buttons ────────────────────────────── */
   document.querySelectorAll('.pack').forEach(function(packEl) {
@@ -667,44 +672,6 @@ ENDSTYLE;
     }
   };
 
-  /* ── Export clean HTML (no editor widget) ─────────── */
-  window.aepExportClean = function() {
-    var clone = document.documentElement.cloneNode(true);
-    ['#admin-editor-panel', '#aep-toast', '#admin-editor-styles', '#admin-editor-script'].forEach(function(sel) {
-      var el = clone.querySelector(sel);
-      if (el) el.remove();
-    });
-    clone.querySelector('body').classList.remove('aep-edit-active');
-    clone.querySelectorAll('[data-editable]').forEach(function(el) {
-      el.removeAttribute('data-editable');
-      el.removeAttribute('data-edit-key');
-    });
-    clone.querySelectorAll('.aep-delivery-span').forEach(function(el) {
-      el.classList.remove('aep-delivery-span');
-    });
-    clone.querySelectorAll('img').forEach(function(el) {
-      var src = el.getAttribute('src');
-      if (src && src.startsWith(window.location.origin)) {
-        el.setAttribute('src', src.substring(window.location.origin.length));
-      }
-    });
-    var colorP2  = document.documentElement.style.getPropertyValue('--orange');
-    var colorBg2 = document.documentElement.style.getPropertyValue('--page-bg');
-    var inlineStyle2 = '';
-    if (colorP2)  inlineStyle2 += ' --orange:' + colorP2 + ';';
-    if (colorBg2) inlineStyle2 += ' --page-bg:' + colorBg2 + ';';
-    if (inlineStyle2) clone.setAttribute('style', inlineStyle2);
-
-    var blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html;charset=utf-8' });
-    var url  = URL.createObjectURL(blob);
-    var a    = document.createElement('a');
-    a.href   = url;
-    a.download = 'mystery-box-clean.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
 
 })();
 </script>

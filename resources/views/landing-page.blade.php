@@ -350,7 +350,7 @@
   <!-- Offer -->
   <div class="card offer-card">
     <p class="offer-eyebrow">সবার আগে অর্ডার করুন</p>
-    <h2 class="offer-title">মিস্ট্রি বক্স অফার</h2>
+    <h2 class="offer-title">মিস্ট্রি বক্স অফার -- বক্সের ভিতরে আপনি একটি কুপন কার্ড পাবেন যেটা আপনাদের লটারির মাধ্যমে পাঁচটি মোটরসাইকেল ড্রতে অংশ গ্রহণ করতে পারবেন </h2>
 
     <div class="hero-img">
       <img src="https://placehold.co/600x300/png?text=Upload+Your+Product+Image" alt="Hero Image" style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;" class="hero-banner">
@@ -358,7 +358,7 @@
     </div>
 
     <div class="timer-box">
-      <p class="timer-label">সীমিত সময়ের জন্য অফার!</p>
+      <p class="timer-label">সীমিত সময়ের জন্য অফার! ** লটারির মাধ্যমে R15 মোটরসাইকেল ড্র অংশগ্রহণ করতে পারবেন **</p>
       <div class="timer-clock">
         <span id="minutes">11</span><span>:</span><span id="seconds">51</span>
       </div>
@@ -368,28 +368,31 @@
     </div>
 
     <div class="pack-options">
-      <div class="pack active" data-price="354" data-name="৬ প্যাক">
+      <div class="pack" data-price="356" data-name="৪ প্যাক">
+        <img class="pack-img" src="https://img.icons8.com/color/96/gift--v1.png">
+        <p class="pack-name">৪ প্যাক</p>
+        <p class="pack-price">৳ 356.00</p>
+        <span class="pack-shipping" style="display: none;">94</span>
+      </div>
+      <div class="pack" data-price="534" data-name="৬ প্যাক">
         <img class="pack-img" src="https://img.icons8.com/color/96/gift--v1.png">
         <p class="pack-name">৬ প্যাক</p>
-        <p class="pack-price">৳ 354.00</p>
+        <p class="pack-price">৳ 534.00</p>
+        <span class="pack-shipping" style="display: none;">116</span>
       </div>
-      <div class="pack" data-price="413" data-name="৭ প্যাক">
-        <img class="pack-img" src="https://img.icons8.com/color/96/gift--v1.png">
-        <p class="pack-name">৭ প্যাক</p>
-        <p class="pack-price">৳ 413.00</p>
-      </div>
-      <div class="pack" data-price="590" data-name="১০ প্যাক">
-        <img class="pack-img" src="https://img.icons8.com/color/96/gift--v1.png">
-        <p class="pack-name">১০ প্যাক</p>
-        <p class="pack-price">৳ 590.00</p>
+      <div class="pack active" data-price="901" data-name="৮ প্যাক লাভজনক">
+        <img class="pack-img" src="/uploads/1784555703_6a5e28b70837d.jpg">
+        <p class="pack-name">৮ প্যাক লাভজনক</p>
+        <p class="pack-price">৳ 901.00</p>
+        <span class="pack-shipping" style="display: none;">99</span>
       </div>
     </div>
 
     <div class="summary-box">
-      <div class="summary-row"><span>নির্বাচিত প্যাকেজ</span><span id="sumPack">৬ প্যাক</span></div>
-      <div class="summary-row"><span>পণ্যের মূল্য</span><span id="sumPrice">৳ 354.00</span></div>
-      <div class="summary-row"><span>ক্যাশ অন ডেলিভারি চার্জ</span><span>৳ 99.00</span></div>
-      <div class="summary-row total"><span>মোট</span><span id="sumTotal">৳ 453.00</span></div>
+      <div class="summary-row"><span>নির্বাচিত প্যাকেজ</span><span id="sumPack">৮ প্যাক লাভজনক</span></div>
+      <div class="summary-row"><span>পণ্যের মূল্য</span><span id="sumPrice">৳ 901.00</span></div>
+      <div class="summary-row"><span>ক্যাশ অন ডেলিভারি চার্জ</span><span id="sumDelivery">৳ 99.00</span></div>
+      <div class="summary-row total"><span>মোট</span><span id="sumTotal">৳ 1000.00</span></div>
     </div>
 
     <button class="btn-primary" id="btn-order-now">🛒 অর্ডার করতে চাই</button>
@@ -434,7 +437,7 @@
 
     <div class="policy-item">
       <h4>ন্যূনতম অর্ডার</h4>
-      <p>অর্ডার করতে অবশ্যই উপলব্ধ প্যাকেজগুলোর (৬ / ৭ / ১০ প্যাক) যেকোনো একটি নির্বাচন করতে হবে।</p>
+      <p>অর্ডার করতে অবশ্যই উপলব্ধ প্যাকেজগুলোর ( ৪ /৬ /৮ প্যাক) যেকোনো একটি নির্বাচন করতে হবে।</p>
     </div>
 
     <div class="policy-item">
@@ -499,18 +502,49 @@
   const sumPack = document.getElementById('sumPack');
   const sumPrice = document.getElementById('sumPrice');
   const sumTotal = document.getElementById('sumTotal');
-  window.codCharge = 99;
+  const sumDelivery = document.getElementById('sumDelivery');
+
+  let defaultShipping = 0;
+
+  // Self-heal: ensure each pack has a hidden .pack-shipping element
+  packs.forEach(pack => {
+    let shippingSpan = pack.querySelector('.pack-shipping');
+    if (!shippingSpan) {
+      shippingSpan = document.createElement('span');
+      shippingSpan.className = 'pack-shipping';
+      shippingSpan.style.display = 'none';
+      shippingSpan.textContent = defaultShipping;
+      pack.appendChild(shippingSpan);
+    }
+  });
+
+  function updateCalculations(pack) {
+    const price = parseFloat(pack.dataset.price);
+    const shippingSpan = pack.querySelector('.pack-shipping');
+    const shipping = shippingSpan ? parseFloat(shippingSpan.textContent) : defaultShipping;
+
+    window.codCharge = shipping;
+    sumPack.textContent = pack.dataset.name;
+    sumPrice.textContent = '৳ ' + price.toFixed(2);
+    if (sumDelivery) {
+      sumDelivery.textContent = '৳ ' + shipping.toFixed(2);
+    }
+    sumTotal.textContent = '৳ ' + (price + shipping).toFixed(2);
+  }
 
   packs.forEach(pack => {
     pack.addEventListener('click', () => {
       packs.forEach(p => p.classList.remove('active'));
       pack.classList.add('active');
-      const price = parseFloat(pack.dataset.price);
-      sumPack.textContent = pack.dataset.name;
-      sumPrice.textContent = '৳ ' + price.toFixed(2);
-      sumTotal.textContent = '৳ ' + (price + window.codCharge).toFixed(2);
+      updateCalculations(pack);
     });
   });
+
+  // Run initial calculations on page load
+  const activePack = document.querySelector('.pack.active');
+  if (activePack) {
+    updateCalculations(activePack);
+  }
 
   // Scroll to billing form
   const btnOrderNow = document.getElementById('btn-order-now');
@@ -538,8 +572,8 @@
       }
 
       const activePack = document.querySelector('.pack.active');
-      const packageName = activePack ? activePack.dataset.name : '৬ প্যাক';
-      const productPrice = activePack ? parseFloat(activePack.dataset.price) : 354.00;
+      const packageName = activePack ? activePack.dataset.name : '৮ প্যাক লাভজনক';
+      const productPrice = activePack ? parseFloat(activePack.dataset.price) : 901.00;
       const deliveryCharge = window.codCharge || 99;
       const totalPrice = productPrice + deliveryCharge;
 
