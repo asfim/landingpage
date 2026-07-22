@@ -6,14 +6,27 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\OrderSubmitController;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
 
-// Root: show landing page to visitors
-Route::get('/', [LandingPageController::class, 'serve'])->name('home');
+// Clear cache route
+Route::get('/clear', function () {
+    Artisan::call('optimize:clear');
+    return 'Cache cleared successfully!';
+});
+
+// Root: redirect to /shop
+Route::get('/', function () {
+    return redirect('/shop');
+});
+
+// Shop route: show landing page to visitors
+Route::get('/shop', [LandingPageController::class, 'serve'])->name('home');
 
 // Public: order submission from landing page
 Route::post('/order/submit', [OrderSubmitController::class, 'store'])->name('order.submit');

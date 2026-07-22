@@ -143,7 +143,7 @@ HTML;
     public function uploadImage(Request $request)
     {
         $request->validate([
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
         ]);
 
         if ($request->hasFile('image')) {
@@ -322,6 +322,7 @@ ENDSTYLE;
     protected function getEditorWidget(): string
     {
         $saveUrl   = route('admin.landing-page.update');
+        $uploadUrl = route('admin.landing-page.upload-image');
         $csrfToken = csrf_token();
 
         $widget = <<<'ENDWIDGET'
@@ -372,6 +373,7 @@ ENDSTYLE;
 (function() {
   /* PHP values injected via str_replace — not heredoc interpolation */
   var SAVE_URL   = 'AEP_SAVE_URL';
+  var UPLOAD_URL = 'AEP_UPLOAD_URL';
   var CSRF_TOKEN = 'AEP_CSRF_TOKEN';
 
   var EDITABLE_SELECTORS = [
@@ -380,7 +382,7 @@ ENDSTYLE;
     '.timer-label','.pack-name','.pack-price','.form-title','.form-sub',
     'label:not(.aep-switch)','.btn-primary','.section-title',
     '.policy-item h4','.policy-item p','.policy-item li','.fbrand','.fcopy',
-    '.pack-img'
+    '.pack-img', '.hero-banner'
   ];
 
   function darkenColor(hex, pct) {
@@ -503,15 +505,16 @@ ENDSTYLE;
       showToast('⏳ Uploading image...');
 
       try {
-        var response = await fetch('/admin/landing-page/upload-image', {
+        var response = await fetch(UPLOAD_URL, {
           method: 'POST',
           headers: {
-            'X-CSRF-TOKEN': CSRF_TOKEN
+            'X-CSRF-TOKEN': CSRF_TOKEN,
+            'Accept': 'application/json'
           },
           body: formData
         });
         var data = await response.json();
-        if (data.success) {
+        if (response.ok && data.success) {
           imgElement.src = data.url;
           
           // Save path to localStorage
@@ -522,10 +525,14 @@ ENDSTYLE;
 
           showToast('✅ Image uploaded successfully!');
         } else {
-          showToast('❌ Upload failed!', false);
+          var errorMsg = data.message || 'Upload failed!';
+          if (data.errors && data.errors.image && data.errors.image.length > 0) {
+              errorMsg = data.errors.image[0];
+          }
+          showToast('❌ ' + errorMsg, false);
         }
       } catch (err) {
-        showToast('❌ Error uploading image!', false);
+        showToast('❌ Network/Server error!', false);
       }
     };
     fileInput.click();
@@ -705,6 +712,7 @@ ENDWIDGET;
 
         // Inject the two PHP-side values via str_replace (safe — no heredoc interpolation)
         $widget = str_replace('AEP_SAVE_URL',   $saveUrl,   $widget);
+        $widget = str_replace('AEP_UPLOAD_URL', $uploadUrl, $widget);
         $widget = str_replace('AEP_CSRF_TOKEN', $csrfToken, $widget);
 
         return $widget;

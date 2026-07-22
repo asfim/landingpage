@@ -87,8 +87,6 @@
     position:relative;
     border-radius:10px;
     overflow:hidden;
-    background:radial-gradient(circle at 50% 40%, #ff7a3d 0%, var(--orange) 60%, var(--orange-dark) 100%);
-    height:200px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -355,7 +353,7 @@
     <h2 class="offer-title">মিস্ট্রি বক্স অফার</h2>
 
     <div class="hero-img">
-      <div class="hero-box-label">MYSTERY<br>BOX</div>
+      <img src="https://placehold.co/600x300/png?text=Upload+Your+Product+Image" alt="Hero Image" style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;" class="hero-banner">
       <span class="cod-tag">Cash on Delivery</span>
     </div>
 
@@ -392,11 +390,6 @@
       <div class="summary-row"><span>পণ্যের মূল্য</span><span id="sumPrice">৳ 354.00</span></div>
       <div class="summary-row"><span>ক্যাশ অন ডেলিভারি চার্জ</span><span>৳ 99.00</span></div>
       <div class="summary-row total"><span>মোট</span><span id="sumTotal">৳ 453.00</span></div>
-    </div>
-
-    <div class="warning-box">
-      <div class="warning-title">⚠️ সতর্ক বার্তা ⚠️</div>
-      <div class="warning-text">Mystery Box মানে আপনার ভাগ্যের পরীক্ষা! সম্পূর্ণ টাকা পরিশোধ করে বক্সটি আনবক্স করবেন। ধন্যবাদ ❤️</div>
     </div>
 
     <button class="btn-primary" id="btn-order-now">🛒 অর্ডার করতে চাই</button>
